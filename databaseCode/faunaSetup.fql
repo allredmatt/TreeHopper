@@ -1,0 +1,183 @@
+Collections:
+Bugs
+    e.g.
+    {
+        "ref": Ref(Collection("Bugs"), "284518248318239239"),
+        "ts": 1631273286085000,
+        "data": {
+            "title": "Bug title goes here",
+            "description": "Just some info about what the bug is and where it appears.",
+            "status": "InProgress",
+            "project": Ref(Collection("Projects"), "284518301215752711"),
+            "owner": "Matt"
+        }
+    }
+
+Projects
+    e.g.
+    {
+        "ref": Ref(Collection("Bugs"), "284518248318239239"),
+        "ts": 1631273286085000,
+        "data": {
+            "title": "Bug title goes here",
+            "description": "Just some info about what the bug is and where it appears.",
+            "status": "InProgress",
+            "project": Ref(Collection("Projects"), "284518301215752711"),
+            "owner": "Matt"
+        }
+    }
+
+Users
+    e.g.
+    {
+        "ref": Ref(Collection("Users"), "284517182180688389"),
+        "ts": 1607595579240000,
+        "data": {
+            "email": "test@test.com",
+            "name": "Test"
+        }
+    }
+
+Indexes:
+all_projects
+all_users
+bugsByProject
+projectsByUser
+UsersByEmail
+
+All Fauna Data for User Roles
+
+{
+  ref: Role("User"),
+  ts: 1704713240300000,
+  name: "User",
+  privileges: [
+    {
+      resource: Collection("Users"),
+      actions: {
+        read: true,
+        write: false,
+        delete: false
+      }
+    },
+    {
+      resource: Collection("Projects"),
+      actions: {
+        read: true,
+        write: Query(
+          Lambda(
+            ["old", "new", "ref"],
+            Reduce(
+              Lambda(
+                ["acc", "value"],
+                Or(Var("acc"), Equals(Var("value"), CurrentIdentity()))
+              ),
+              false,
+              Select(["data", "Users"], Get(Var("ref")))
+            )
+          )
+        ),
+        create: true,
+        delete: Query(
+          Lambda(
+            "ref",
+            Reduce(
+              Lambda(
+                ["acc", "value"],
+                Or(Var("acc"), Equals(Var("value"), CurrentIdentity()))
+              ),
+              false,
+              Select(["data", "Users"], Get(Var("ref")))
+            )
+          )
+        )
+      }
+    },
+    {
+      resource: Collection("Bugs"),
+      actions: {
+        read: true,
+        write: Query(
+          Lambda(
+            ["oldData", "newData", "ref"],
+            Call(
+              Function("IdentityCheck"),
+              Select(["data", "project"], Get(Var("ref")))
+            )
+          )
+        ),
+        create: true,
+        delete: Query(
+          Lambda(
+            "ref",
+            Call(
+              Function("IdentityCheck"),
+              Select(["data", "project"], Get(Var("ref")))
+            )
+          )
+        ),
+        history_read: false,
+        history_write: false,
+        unrestricted_read: false
+      }
+    },
+    {
+      resource: Index("UsersByEmail"),
+      actions: {
+        unrestricted_read: false,
+        read: true
+      }
+    },
+    {
+      resource: Index("all_projects"),
+      actions: {
+        unrestricted_read: false,
+        read: true
+      }
+    },
+    {
+      resource: Index("projectsByUser"),
+      actions: {
+        unrestricted_read: false,
+        read: true
+      }
+    },
+    {
+      resource: Ref(Ref("functions"), "projectListByUser"),
+      actions: {
+        call: true
+      }
+    },
+    {
+      resource: Ref(Ref("functions"), "bugsByProject"),
+      actions: {
+        call: true
+      }
+    },
+    {
+      resource: Ref(Ref("functions"), "IdentityCheck"),
+      actions: {
+        call: true
+      }
+    },
+    {
+      resource: Ref(Ref("functions"), "usersByProject"),
+      actions: {
+        call: true
+      }
+    },
+    {
+      resource: Index("all_users"),
+      actions: {
+        unrestricted_read: false,
+        read: true
+      }
+    }
+  ],
+  membership: [
+    {
+      resource: Collection("Users")
+    }
+  ]
+}
+

@@ -1,0 +1,84 @@
+Bugs by project:
+Query(
+  Lambda(
+    "projectId",
+    Map(
+      Select(
+        ["data", "Bugs"],
+        Get(Ref(Collection("Projects"), Var("projectId")))
+      ),
+      Lambda(
+        "bugRef",
+        Let(
+          { bugDoc: Get(Var("bugRef")) },
+          {
+            title: Select(["data", "title"], Var("bugDoc")),
+            description: Select(["data", "description"], Var("bugDoc")),
+            status: Select(["data", "status"], Var("bugDoc")),
+            id: Select(["ref", "id"], Var("bugDoc")),
+            owner: Select(["data", "owner"], Var("bugDoc"))
+          }
+        )
+      )
+    )
+  )
+)
+
+IdentityCheck:
+Query(
+  Lambda(
+    "ref",
+    Reduce(
+      Lambda(
+        ["acc", "value"],
+        Or(Var("acc"), Equals(Var("value"), CurrentIdentity()))
+      ),
+      false,
+      Select(["data", "Users"], Get(Var("ref")))
+    )
+  )
+)
+
+projectListByUser:
+Query(
+  Lambda(
+    "userRef",
+    Map(
+      Paginate(Match(Index("projectsByUser"), Var("userRef"))),
+      Lambda(
+        "ref",
+        Let(
+          { doc: Get(Var("ref")) },
+          {
+            name: Select(["data", "Name"], Var("doc")),
+            description: Select(["data", "Description"], Var("doc")),
+            id: Select(["ref", "id"], Var("doc"))
+          }
+        )
+      )
+    )
+  )
+)
+
+usersByProject:
+Query(
+  Lambda(
+    "projectId",
+    Map(
+      Select(
+        ["data", "Users"],
+        Get(Ref(Collection("Projects"), Var("projectId")))
+      ),
+      Lambda(
+        "userRef",
+        Let(
+          { userDoc: Get(Var("userRef")) },
+          {
+            name: Select(["data", "name"], Var("userDoc")),
+            id: Select(["ref", "id"], Var("userDoc"))
+          }
+        )
+      )
+    )
+  )
+)
