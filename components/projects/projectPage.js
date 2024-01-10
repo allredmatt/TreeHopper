@@ -4,6 +4,7 @@ import ProjectCard from './projectCard';
 import { Typography } from '@material-ui/core';
 import { projectList } from '../../faunaFunctions/client';
 import { ChangeProjectDialog } from './projectCard';
+import { TrendingUp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -30,15 +31,17 @@ export default function Projects ({token}) {
 
     const [projects, setProjects] = useState([])
     const [isNewProjectDialogOpen, setIsNewProjectDialogOpen] = useState(false)
+    const [updateProjects, setUpdateProjects] = useState(1) //Need a way to force a refresh from the server.
+
     useEffect(() => {
         projectList(token).then((returnedProjects) => {
             setProjects(returnedProjects.data)
         })
-    }, [])
+    }, [updateProjects])
 
-    //Function to be triggered if user changes the name or description of an individual project and this needs to be sync'd to local props.
+    //Function to be triggered if user changes the name or description, or adds a new project, of an individual project and this needs to be sync'd to local props.
     const updateProjectsProp = (newName, newDescription, id) => {
-        setProjects(
+        /*setProjects(
             projects.map(project => {
                 return {
                     //if ids match then change the name and title
@@ -47,7 +50,8 @@ export default function Projects ({token}) {
                     id: project.id,
                 };
             })
-        )
+        )*/
+        setUpdateProjects(updateProjects + 1) //Changing updateProjects should trigger the useEffect to reload info from database.
     }
     
 
@@ -55,8 +59,16 @@ export default function Projects ({token}) {
 
     return(
         <div className={classes.container} >
-            <AddNewProject />
-            <ChangeProjectDialog key='new' name="Add new name here" description="Add a description of the project" isOpen={isNewProjectDialogOpen} setIsOpen={setIsNewProjectDialogOpen} />
+            <AddNewProject token={token} setIsNewProjectDialogOpen={setIsNewProjectDialogOpen}/>
+            <ChangeProjectDialog  
+                name="" 
+                description="" 
+                isOpen={isNewProjectDialogOpen} 
+                setIsOpen={setIsNewProjectDialogOpen} 
+                token={token}
+                updateProjectsProp={updateProjectsProp}
+                isProjectNew={true}
+            />
             {
                 projects.map((project) => <ProjectCard key={project.id} id={project.id} projectName={project.name} projectDescription={project.description} token={token} updateProjectsProp={updateProjectsProp}/>)
             }
@@ -64,12 +76,12 @@ export default function Projects ({token}) {
     )
 }
 
-function AddNewProject () {
+function AddNewProject ({setIsNewProjectDialogOpen}) {
 
     const classes = useStyles()
 
     const addNew = () => {
-        console.log("New Project")
+        setIsNewProjectDialogOpen(true)
     }
 
     return (

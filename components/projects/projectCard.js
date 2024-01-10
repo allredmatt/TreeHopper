@@ -14,7 +14,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { useState, useEffect } from 'react';
 import { Fragment } from 'react';
-import {updateProjectName, addUserToProject, removeUserFromProject} from '../../faunaFunctions/client';
+import {updateProjectName, addUserToProject, removeUserFromProject, newProject} from '../../faunaFunctions/client';
 import { userList, teamMembersList } from '../../faunaFunctions/client';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -60,6 +60,7 @@ export default function ProjectCard ({id, projectName, projectDescription, token
           setIsOpen={setOpenForm} 
           token={token} 
           updateProjectsProp={updateProjectsProp}
+          isProjectNew={false}
         />
         <AddPeopleDialog
           id={id}
@@ -85,7 +86,7 @@ export default function ProjectCard ({id, projectName, projectDescription, token
     )
 }
 
-export function ChangeProjectDialog ({id, name, description, isOpen = false, setIsOpen, token, updateProjectsProp}) {
+export function ChangeProjectDialog ({id, name, description, isOpen = false, setIsOpen, token, updateProjectsProp, isProjectNew }) {
 
     const [newName, setNewName] = useState(name)
     const [newDescription, setNewDescription] = useState(description)
@@ -94,9 +95,19 @@ export function ChangeProjectDialog ({id, name, description, isOpen = false, set
     const handleSave = () => {
       setIsDisabled(true)
       //Update the projects details on the database server
-      updateProjectName (token, id, newName, newDescription).then(handleClose)
-      //Update the local projects prop 
-      updateProjectsProp(newName, newDescription, id)
+      if(isProjectNew){
+        newProject (token, newName, newDescription).then(()=>{
+          handleClose()
+          //Update the local projects prop 
+          updateProjectsProp(newName, newDescription, id)
+        })
+      } else {
+        updateProjectName (token, id, newName, newDescription).then(()=>{
+          handleClose()
+          //Update the local projects prop 
+          updateProjectsProp(newName, newDescription, id)
+        })
+      }
     }
 
     const handleClose = () => {

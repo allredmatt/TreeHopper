@@ -73,7 +73,7 @@ export async function updateProjectName (secret, project, name, description) {
         )
 }
 
-export async function newProject (secret, name) {
+export async function newProject (secret, name, description) {
     const client = new faunadb.Client({ secret: secret })
     return client.query(
         q.Create(
@@ -82,6 +82,7 @@ export async function newProject (secret, name) {
                 data: 
                 {
                     Name: name,
+                    Description: description,
                     Users: [q.CurrentIdentity()],
                     Bugs: []
                 }
