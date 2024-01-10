@@ -140,6 +140,7 @@ export async function addBug (secret, projectId, title, description, status = "O
                                 title: title,
                                 description: description,
                                 status: status,
+                                owner: q.CurrentIdentity()
                             }
                         }
                     )

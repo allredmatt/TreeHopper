@@ -41,17 +41,7 @@ export default function Projects ({token}) {
 
     //Function to be triggered if user changes the name or description, or adds a new project, of an individual project and this needs to be sync'd to local props.
     const updateProjectsProp = (newName, newDescription, id) => {
-        /*setProjects(
-            projects.map(project => {
-                return {
-                    //if ids match then change the name and title
-                    name: project.id === id ? newName : project.name,
-                    description: project.id === id ? newDescription : project.description,
-                    id: project.id,
-                };
-            })
-        )*/
-        setUpdateProjects(updateProjects + 1) //Changing updateProjects should trigger the useEffect to reload info from database.
+        setUpdateProjects(updateProjects + 1) //Changing updateProjects should trigger the useEffect to reload info from database. There must be a better way of doing this.
     }
     
 
