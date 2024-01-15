@@ -114,6 +114,7 @@ export function Login ({setToken}) {
                     <OutlinedInput
                         id="outlined-adornment-email"
                         value={user.email}
+                        label='Email'
                         onChange={(event) => setUser({...user, email: event.target.value})}
                         startAdornment={<InputAdornment position="start">
                             <MailOutlineIcon />
@@ -128,6 +129,7 @@ export function Login ({setToken}) {
                         value={user.password}
                         onChange={(event) => setUser({...user, password: event.target.value})}
                         onKeyDown={keypress}
+                        label='Password'
                         startAdornment={
                             <InputAdornment position="start">
                                 <LockOpenIcon />
@@ -154,6 +156,7 @@ export function Login ({setToken}) {
                         <OutlinedInput
                             id="outlined-adornment-name"
                             value={user.name}
+                            label='Name'
                             onChange={(event) => setUser({...user, name: event.target.value})}
                             startAdornment={<InputAdornment position="start">
                                 <AccountCircleIcon />
