@@ -1,7 +1,6 @@
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
 import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
@@ -11,18 +10,33 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
+import { bugsListByProject } from '../../faunaFunctions/client';
+import { FormatListNumberedRtlSharp } from '@mui/icons-material';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function Bugs ({token}){
+export default function Bugs ({token, projectsList}){
+
+    const [bugsList, setBugsList] = useState([])
+
 
     useEffect(() => {
-        projectList(token).then((returnedProjects) => {
-            setProjects(returnedProjects.data)
-        })
-    }, [updateProjects])
+        var finalArray = []
+
+        async function fetchBugsList(projectID, projectName){
+            const returned = await bugsListByProject(token, projectID)
+            const result = returned.map(item => {return({...item, project: projectName})})
+            finalArray = finalArray.concat(result)
+            setBugsList(finalArray)
+        }
+
+        projectsList.forEach( (project)=> {
+            fetchBugsList(project.id, project.name)
+        });
+
+    }, [])
 
   const [chipData, setChipData] = useState([
     { key: 0, label: 'Open' },
@@ -77,24 +91,12 @@ export default function Bugs ({token}){
         Add Bug
       </Button>
       </ListItem>
-      <BugTable />
+      <BugTable bugList={bugsList}/>
     </Paper>
   );
 }
 
-function BugTable() {
-
-    function createData(title, owner, date, status, project, description) {
-        return { title, owner, date, status, project, description };
-    }
-
-    const rows = [
-        createData('Title 1', 'Matt', '15/01/2023', 'Open', 'Test Project', 'Longer description about bug 1'),
-        createData('Title 2', 'Matt', '15/01/2023', 'Open', 'Test Project', 'Longer description about bug 2'),
-        createData('Title 3', 'Matt', '15/01/2023', 'Closed', 'Test Project', 'Longer description about bug 3'),
-        createData('Title 4', 'Matt', '15/01/2023', 'In Progress', 'Test Project', 'Longer description about bug 4'),
-        createData('Title 5', 'Matt', '15/01/2023', 'Open', 'Test Project', 'Longer description about bug 5'),
-      ];
+function BugTable({bugList}) {
 
     const whatColor = (type) => {
         const color = {green: 'success', orange: 'warning', red: 'error'}
@@ -123,7 +125,7 @@ function BugTable() {
             </TableRow>
         </TableHead>
         <TableBody>
-            {rows.map((row) => (
+            {bugList.map((row) => (
             <Tooltip key={row.title} title={row.description} placement="left">
             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
                 <TableCell component="th" scope="row">

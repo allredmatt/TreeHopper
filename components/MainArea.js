@@ -2,7 +2,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles';
 import { useEffect, useState } from 'react'
-import { bugsList, modifyBug } from '../faunaFunctions/client'
+import { bugsListByProject, modifyBug } from '../faunaFunctions/client'
 import { Toolbar } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +20,7 @@ export default function MainArea ({token, selectedProject, user}) {
     useEffect(() => {
         //Populate localBugList with bugs from selected project
         if(selectedProject){
-            bugsList(token, selectedProject.id)
+            bugsListByProject(token, selectedProject.id)
             .then((data) => setLocalBugsList(data))
         }
     }, [selectedProject])

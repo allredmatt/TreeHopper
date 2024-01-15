@@ -6,6 +6,7 @@ import Projects from '../components/projects/projectPage'
 import Bugs from '../components/bugs/bugPage'
 import People from '../components/people/peoplePage'
 import { makeStyles } from '@mui/styles';
+import { projectList } from '../faunaFunctions/client';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -46,18 +47,40 @@ export default function AuthedApp ({token}) {
         }
     }, [token])
 
+
+    const [projects, setProjects] = useState([]) //State to store projects list from the DB
+    const [updateProjects, setUpdateProjects] = useState(1) //Need a way to force a refresh from the server.
+
+    //useEffect to load the list of projects from the DB
+    useEffect(() => {
+        projectList(token).then((returnedProjects) => {
+            setProjects(returnedProjects.data)
+        })
+    }, [updateProjects])
+
+
+
     const whichPageToRender = (page) => {
         switch (page) {
             case 'projects':
-                return(<Projects token={token} />)
+                return(
+                    <Projects 
+                        token={token}
+                        projects={projects}
+                        setProjects={setProjects}
+                        updateProjects={updateProjects}
+                        setUpdateProjects={setUpdateProjects}
+                    />)
             case 'bugs':
-                return(<Bugs token={token} />)
+                return(<Bugs token={token} projectsList={projects}/>)
             case 'people':
                 return(<People token={token} />)
             default:
                 return null
         }
     }
+
+
 
     return (
         <div className={classes.root}>

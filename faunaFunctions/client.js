@@ -27,12 +27,22 @@ export async function projectList (secret) {
     )
 }
 
-export async function bugsList (secret, projectId) {
+export async function bugsListByProject (secret, projectId) {
     const client = new faunadb.Client({ secret: secret })
     return await client.query(
         q.Call(
             q.Function("bugsByProject"),
             projectId
+        )
+    )
+}
+
+export async function bugsListByUser (secret) {
+    const client = new faunadb.Client({ secret: secret })
+    return await client.query(
+        q.Call(
+            q.Function("bugsByUser"),
+            q.CurrentIdentity
         )
     )
 }
