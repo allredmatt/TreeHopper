@@ -8,8 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.2",
-    "@material-ui/icons": "^4.11.2",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/material": "^5.15.4",
+    "@mui/material-nextjs": "^5.15.3",
+    "@mui/styles": "^5.15.4",
     "clsx": "^1.1.1",
     "faunadb": "^4.0.0",
     "next": "10.0.3",

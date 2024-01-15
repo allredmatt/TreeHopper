@@ -1,9 +1,9 @@
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles';
 import { useEffect, useState } from 'react'
 import { bugsList, modifyBug } from '../faunaFunctions/client'
-import { Toolbar } from '@material-ui/core';
+import { Toolbar } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
     bugDiv:{

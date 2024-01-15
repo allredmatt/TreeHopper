@@ -1,16 +1,16 @@
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import BugReportIcon from '@material-ui/icons/BugReport';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import { PeopleAlt, Nature } from '@material-ui/icons';
-import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@mui/material/Hidden';
+import Typography from '@mui/material/Typography';
+import { makeStyles } from '@mui/styles';
+import BugReportIcon from '@mui/icons-material/BugReport';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import { PeopleAlt, Nature } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 
 const useStyles = makeStyles((theme) => ({
     

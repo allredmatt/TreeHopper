@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { Login }    from '../components/login'
 import dynamic      from 'next/dynamic'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../components/theme';
+
 
 const AuthedApp = dynamic(() => import('../components/AuthedApp'))
 
@@ -11,7 +14,9 @@ export default function Home () {
 
     return (
         <div >
-            {token? <AuthedApp token={token} /> : <Login setToken={setToken}/>}
+            <ThemeProvider theme={theme}>
+                {token? <AuthedApp token={token} /> : <Login setToken={setToken}/>}
+            </ThemeProvider>
         </div>
     )
 }

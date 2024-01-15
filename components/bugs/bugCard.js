@@ -1,17 +1,17 @@
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
-import Divider from '@material-ui/core/Divider';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import { makeStyles } from '@mui/styles';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
+import Divider from '@mui/material/Divider';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { useReducer, useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({

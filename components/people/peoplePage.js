@@ -15,7 +15,7 @@ export default function People ({token}) {
         <div>
             {peopleList.map((person) => {
                 return (
-                    <div>{person.name}</div>
+                    <div key={person.name}>{person.name}</div>
                 )
             })}
         </div>

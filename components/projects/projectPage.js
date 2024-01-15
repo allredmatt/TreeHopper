@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useState, useEffect } from 'react';
 import ProjectCard from './projectCard';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { projectList } from '../../faunaFunctions/client';
 import { ChangeProjectDialog } from './projectCard';
-import { TrendingUp } from '@material-ui/icons';
+import { TrendingUp } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
     container:{

@@ -1,19 +1,19 @@
 import React             from 'react';
 import { useState }      from "react"
-import { makeStyles }    from '@material-ui/core/styles';
-import Paper             from '@material-ui/core/Paper';
-import Typography        from '@material-ui/core/Typography';
-import IconButton        from '@material-ui/core/IconButton';
-import OutlinedInput     from '@material-ui/core/OutlinedInput';
-import InputLabel        from '@material-ui/core/InputLabel';
-import InputAdornment    from '@material-ui/core/InputAdornment';
-import FormControl       from '@material-ui/core/FormControl';
-import Visibility        from '@material-ui/icons/Visibility';
-import VisibilityOff     from '@material-ui/icons/VisibilityOff';
-import MailOutlineIcon   from '@material-ui/icons/MailOutline';
-import LockOpenIcon      from '@material-ui/icons/LockOpen';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Button            from '@material-ui/core/Button';
+import { makeStyles }    from '@mui/styles';
+import Paper             from '@mui/material/Paper';
+import Typography        from '@mui/material/Typography';
+import IconButton        from '@mui/material/IconButton';
+import OutlinedInput     from '@mui/material/OutlinedInput';
+import InputLabel        from '@mui/material/InputLabel';
+import InputAdornment    from '@mui/material/InputAdornment';
+import FormControl       from '@mui/material/FormControl';
+import Visibility        from '@mui/icons-material/Visibility';
+import VisibilityOff     from '@mui/icons-material/VisibilityOff';
+import MailOutlineIcon   from '@mui/icons-material/MailOutline';
+import LockOpenIcon      from '@mui/icons-material/LockOpen';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Button            from '@mui/material/Button';
 import * as api          from '../components/apiCalls';
 import Image             from 'next/image';
 
@@ -118,7 +118,6 @@ export function Login ({setToken}) {
                         startAdornment={<InputAdornment position="start">
                             <MailOutlineIcon />
                         </InputAdornment>}
-                        labelWidth={45}
                     />
                 </FormControl>
                 <FormControl fullWidth className={classes.margin} variant="outlined">
@@ -146,7 +145,6 @@ export function Login ({setToken}) {
                               </IconButton>
                             </InputAdornment>
                           }
-                        labelWidth={75}
                     />
                 </FormControl>
                 {showRegister?
@@ -160,7 +158,6 @@ export function Login ({setToken}) {
                             startAdornment={<InputAdornment position="start">
                                 <AccountCircleIcon />
                             </InputAdornment>}
-                            labelWidth={45}
                         />
                     </FormControl>
                     <Button 

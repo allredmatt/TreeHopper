@@ -5,7 +5,7 @@ import { getCurrentUsersName } from '../faunaFunctions/client'
 import Projects from '../components/projects/projectPage'
 import Bugs from '../components/bugs/bugPage'
 import People from '../components/people/peoplePage'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
     root:{
