@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useState, useEffect } from 'react';
 import ProjectCard from './projectCard';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { projectList } from '../../faunaFunctions/client';
 import { ChangeProjectDialog } from './projectCard';
-import { TrendingUp } from '@material-ui/icons';
+import { TrendingUp } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -41,17 +41,7 @@ export default function Projects ({token}) {
 
     //Function to be triggered if user changes the name or description, or adds a new project, of an individual project and this needs to be sync'd to local props.
     const updateProjectsProp = (newName, newDescription, id) => {
-        /*setProjects(
-            projects.map(project => {
-                return {
-                    //if ids match then change the name and title
-                    name: project.id === id ? newName : project.name,
-                    description: project.id === id ? newDescription : project.description,
-                    id: project.id,
-                };
-            })
-        )*/
-        setUpdateProjects(updateProjects + 1) //Changing updateProjects should trigger the useEffect to reload info from database.
+        setUpdateProjects(updateProjects + 1) //Changing updateProjects should trigger the useEffect to reload info from database. There must be a better way of doing this.
     }
     
 

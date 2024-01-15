@@ -1,10 +1,10 @@
-import { makeStyles }           from '@material-ui/core/styles';
-import Hidden                   from '@material-ui/core/Hidden';
-import Fab                      from '@material-ui/core/Fab';
-import BugReportIcon            from '@material-ui/icons/BugReport';
-import PeopleIcon               from '@material-ui/icons/People';
-import DescriptionIcon          from '@material-ui/icons/Description';
-import Paper                    from '@material-ui/core/Paper';
+import { makeStyles }           from '@mui/styles';
+import Hidden                   from '@mui/material/Hidden';
+import Fab                      from '@mui/material/Fab';
+import BugReportIcon            from '@mui/icons-material/BugReport';
+import PeopleIcon               from '@mui/icons-materialPeople';
+import DescriptionIcon          from '@mui/icons-materialDescription';
+import Paper                    from '@mui/material/Paper';
 
 const useStyles = makeStyles((theme) => ({
     root: {
