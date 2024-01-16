@@ -72,7 +72,7 @@ export default function AuthedApp ({token}) {
                         setUpdateProjects={setUpdateProjects}
                     />)
             case 'bugs':
-                return(<Bugs token={token} projectsList={projects}/>)
+                return(<Bugs token={token} projectsList={projects} user={user}/>)
             case 'people':
                 return(<People token={token} />)
             default:

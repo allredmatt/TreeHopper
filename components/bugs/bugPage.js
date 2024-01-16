@@ -11,13 +11,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import { bugsListByProject } from '../../faunaFunctions/client';
-import { FormatListNumberedRtlSharp } from '@mui/icons-material';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function Bugs ({token, projectsList}){
+export default function Bugs ({token, projectsList, user}){
 
     const [bugsList, setBugsList] = useState([])
 
@@ -39,15 +38,15 @@ export default function Bugs ({token, projectsList}){
     }, [])
 
   const [chipData, setChipData] = useState([
-    { key: 0, label: 'Open' },
-    { key: 1, label: "Matt's" },
-    { key: 2, label: 'Polymer' },
-    { key: 3, label: 'React' },
-    { key: 4, label: 'Vue.js' },
-  ]);
+    { key: 0, label: 'Open', active: true},
+    { key: 1, label: 'In Progress', active: true },
+    { key: 2, label: 'Closed', active: true },
+    { key: 3, label: '< 30 Days', active: false},
+    { key: 4, label: 'Mine', active: false },
+  ]); //Should add in filter by project in the future.
 
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  const handleDelete = (chipToToggle) => () => {
+    setChipData((chips) => chips.map((chip) => chip.key !== chipToToggle.key ? chip : {...chip, active: !chipToToggle.active}));
   };
   
   const handleAddNewFilter = () => {
@@ -69,7 +68,7 @@ export default function Bugs ({token, projectsList}){
     >
       {chipData.map((data) => {
         return (
-          <ListItem key={data.key}>
+          data.active && <ListItem key={data.key}>
             <Chip
               label={data.label}
               onDelete={handleDelete(data)}
@@ -78,25 +77,30 @@ export default function Bugs ({token, projectsList}){
           </ListItem>
         );
       })}
-      <ListItem key={'Add'}>
+      {chipData.map((data) => {
+        return (
+          !data.active && <ListItem key={data.key}>
             <Chip
-              label='+'
-              onClick={handleAddNewFilter}
-              color="secondary"
+              label={data.label}
+              onClick={handleDelete(data)}
               clickable
+              color="primary"
+              variant="outlined"
             />
-      </ListItem>
+          </ListItem>
+        );
+      })}
       <ListItem key={'New'}sx={{marginLeft: 'auto'}}>
       <Button variant="outlined" startIcon='+'>
         Add Bug
       </Button>
       </ListItem>
-      <BugTable bugList={bugsList}/>
+      <BugTable bugList={bugsList} filters={chipData} user={user.name}/>
     </Paper>
   );
 }
 
-function BugTable({bugList}) {
+function BugTable({bugList, filters, user}) {
 
     const whatColor = (type) => {
         const color = {green: 'success', orange: 'warning', red: 'error'}
@@ -112,6 +116,31 @@ function BugTable({bugList}) {
         }
     }
 
+    const shouldBeIncluded = (row) => {
+      /*
+    { key: 0, label: 'Open', active: true},
+    { key: 1, label: 'In Progress', active: true },
+    { key: 2, label: 'Closed', active: true },
+    { key: 3, label: '< 30 days', active: false},
+    { key: 4, label: 'Mine', active: false },
+    { key: 5, label: 'Project', active: false },
+    */
+      //compare each row in filters to see if the content should not be displayed, return true to not display an item.
+      //could do some joined together boolean logic statements but I think this is easier to read.
+
+      if (filters[3].active && ((new Date() - new Date(row.created)) > 2592000000)) return false //Filter 4 is within 30 days (2592000000ms)
+      
+      if (filters[4].active && user != row.owner) return false //Filter 4 is owner of project is current user
+
+      if (filters[0].active && row.status === filters[0].label) return true //Filter 0 is Open projects
+      if (filters[1].active && row.status === filters[1].label) return true //Filter 1 is In Progress projects
+      if (filters[2].active && row.status === filters[2].label) return true //Filter 2 is Closed projects
+
+      
+      
+      return false
+    }
+
     return(
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -125,26 +154,28 @@ function BugTable({bugList}) {
             </TableRow>
         </TableHead>
         <TableBody>
-            {bugList.map((row) => (
-            <Tooltip key={row.title} title={row.description} placement="left">
-            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
-                <TableCell component="th" scope="row">
-                    {row.title}
-                </TableCell>
-                <TableCell align="right">
-                    {row.owner}
-                 </TableCell>
-                <TableCell align="right">{row.date}</TableCell>
-                <TableCell align="right">
-                    <Chip 
-                        label={row.status}
-                        color={whatColor(row.status)}
-                    />
-                </TableCell>
-                <TableCell align="right">{row.project}</TableCell>
-            </TableRow>
-            </Tooltip>
-            ))}
+            {bugList.map((row) => 
+              shouldBeIncluded(row) ?
+                <Tooltip key={row.title} title={row.description} placement="left">
+                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                    <TableCell component="th" scope="row">
+                        {row.title}
+                    </TableCell>
+                    <TableCell align="right">
+                        {row.owner}
+                    </TableCell>
+                    <TableCell align="right">{row.created}</TableCell>
+                    <TableCell align="right">
+                        <Chip 
+                            label={row.status}
+                            color={whatColor(row.status)}
+                        />
+                    </TableCell>
+                    <TableCell align="right">{row.project}</TableCell>
+                </TableRow>
+                </Tooltip> 
+                : null
+              )}
         </TableBody>
         </Table>
         </TableContainer>
