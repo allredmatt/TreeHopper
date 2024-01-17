@@ -26,7 +26,8 @@ export default function Bugs ({token, projectsList, user}){
 
         async function fetchBugsList(projectID, projectName){
             const returned = await bugsListByProject(token, projectID)
-            const result = returned.map(item => {return({...item, project: projectName})})
+            //Need to make the date human readable and add the project name (rather than just an id).
+            const result = returned.map(item => {return({...item, project: projectName, created: (new Date(item.created)).toLocaleDateString()})})
             finalArray = finalArray.concat(result)
             setBugsList(finalArray)
         }
@@ -143,7 +144,7 @@ function BugTable({bugList, filters, user}) {
 
     return(
         <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 500 }} aria-label="simple table">
         <TableHead>
             <TableRow>
             <TableCell>Bug Title</TableCell>
