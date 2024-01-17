@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import { bugsListByProject } from '../../faunaFunctions/client';
+import { Typography, Box } from '@mui/material';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
@@ -67,6 +68,8 @@ export default function Bugs ({token, projectsList, user}){
       component="ul"
       elevation={0}
     >
+      <Typography variant="h5" sx={{marginBottom: 2, color: 'primary.main'}}>All Bugs</Typography>
+      <Box sx={{ flexBasis: '100%', height: '0' }} /> {/*Added to force the chips onto a new line and have the text stay on top and be centre aligned*/}
       {chipData.map((data) => {
         return (
           data.active && <ListItem key={data.key}>
@@ -148,8 +151,8 @@ function BugTable({bugList, filters, user}) {
         <TableHead>
             <TableRow>
             <TableCell>Bug Title</TableCell>
-            <TableCell align="left">Status</TableCell>
-            <TableCell align="right">Owner</TableCell>
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="left">Owner</TableCell>
             <TableCell align="left">Project</TableCell>
             <TableCell align="right">Created</TableCell>
             </TableRow>
@@ -157,16 +160,16 @@ function BugTable({bugList, filters, user}) {
         <TableBody>
             {bugList.map((row) => 
               shouldBeIncluded(row) ?
-                <Tooltip key={row.title} title={row.description} placement="left">
+                <Tooltip key={row.title} title={row.description} placement="top">
                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
                     <TableCell component="th" scope="row">{row.title}</TableCell>
-                    <TableCell align="left">
+                    <TableCell align="center">
                         <Chip 
                             label={row.status}
                             color={whatColor(row.status)}
                         />
                     </TableCell>
-                    <TableCell align="right">{row.owner}</TableCell>
+                    <TableCell align="left">{row.owner}</TableCell>
                     <TableCell align="left">{row.project}</TableCell>
                     <TableCell align="right">{row.created}</TableCell>
                     
