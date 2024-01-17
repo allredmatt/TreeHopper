@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
         },
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(2),
+        overflowX: 'scroll'
     },
 }))
 

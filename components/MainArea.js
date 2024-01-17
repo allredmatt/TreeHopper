@@ -8,6 +8,7 @@ import { Toolbar } from '@mui/material';
 const useStyles = makeStyles((theme) => ({
     bugDiv:{
         padding: theme.spacing(2),
+        overflowx: 'scroll',
     },
   }));
 

@@ -148,10 +148,10 @@ function BugTable({bugList, filters, user}) {
         <TableHead>
             <TableRow>
             <TableCell>Bug Title</TableCell>
+            <TableCell align="left">Status</TableCell>
             <TableCell align="right">Owner</TableCell>
+            <TableCell align="left">Project</TableCell>
             <TableCell align="right">Created</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Project</TableCell>
             </TableRow>
         </TableHead>
         <TableBody>
@@ -159,20 +159,17 @@ function BugTable({bugList, filters, user}) {
               shouldBeIncluded(row) ?
                 <Tooltip key={row.title} title={row.description} placement="left">
                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
-                    <TableCell component="th" scope="row">
-                        {row.title}
-                    </TableCell>
-                    <TableCell align="right">
-                        {row.owner}
-                    </TableCell>
-                    <TableCell align="right">{row.created}</TableCell>
-                    <TableCell align="right">
+                    <TableCell component="th" scope="row">{row.title}</TableCell>
+                    <TableCell align="left">
                         <Chip 
                             label={row.status}
                             color={whatColor(row.status)}
                         />
                     </TableCell>
-                    <TableCell align="right">{row.project}</TableCell>
+                    <TableCell align="right">{row.owner}</TableCell>
+                    <TableCell align="left">{row.project}</TableCell>
+                    <TableCell align="right">{row.created}</TableCell>
+                    
                 </TableRow>
                 </Tooltip> 
                 : null
