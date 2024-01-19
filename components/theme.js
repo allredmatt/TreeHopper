@@ -13,7 +13,8 @@ const theme = createTheme({
       main: '#369b99',
       dark: '#67369b',
     },
-    transparentBackground: 'hsla(116, 25%, 91% ,0.85)'
+    transparentBackground: 'hsla(116, 25%, 91% ,0.85)',
+    lightGreen: 'hsla(116, 25%, 91% ,1)'
   },
   sizes:{
     drawWidth: '240px'

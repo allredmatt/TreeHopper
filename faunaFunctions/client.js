@@ -151,14 +151,14 @@ export async function addBug (secret, projectId, title, description, status = "O
                                 description: description,
                                 status: status,
                                 owner: q.CurrentIdentity(),
-                                created: q.Now()
+                                created: q.Now(),
+                                project: q.Ref(q.Collection('Projects'), projectId)
                             }
                         }
                     )
                 )
                 .then((responseData) => {
                 //Add new bug to project passed as a prop
-                console.log(responseData)
                 client.query (
                     q.Update(
                     q.Ref(q.Collection('Projects'), projectId),
@@ -184,7 +184,7 @@ export async function addBug (secret, projectId, title, description, status = "O
     })
 }
 
-export async function modifyBug (secret, bugId, title, description, status, owner = null) {
+export async function modifyBug (secret, bugId, title, description, status) {
     const client = new faunadb.Client({ secret: secret })
     return await client.query (
             q.Update(
@@ -195,7 +195,6 @@ export async function modifyBug (secret, bugId, title, description, status, owne
                     title: title,
                     description: description,
                     status: status,
-                    owner: owner
                 }
             }
             )
