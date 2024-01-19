@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import BugTable from './bugTable';
-import { bugsListByProject, modifyBug } from '../../faunaFunctions/client';
+import { bugsListByProject } from '../../faunaFunctions/client';
 import { Typography, Box } from '@mui/material';
 import BugDialog from './bugDialog';
 

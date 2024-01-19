@@ -44,7 +44,8 @@ export default function BugDialog (props) {
     const handleSave = () => {
 
         function reset () {
-            setResetBugsList(resetBugsList + 1)
+            //Give server time to update etc... then call resetBugsList
+            setTimeout(() => setResetBugsList(resetBugsList + 1), 100)
         }
 
         isNew?

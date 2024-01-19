@@ -136,7 +136,7 @@ export async function removeUserFromProject (secret, projectId, oldUserId) {
 
 export async function addBug (secret, projectId, title, description, status = "Open") {
     const client = new faunadb.Client({ secret: secret })
-    return new Promise ((resolve, reject) => {
+    return await new Promise ((resolve, reject) => {
         canModifyProject(secret, projectId)
         .then((response) => {
             if(response) {
