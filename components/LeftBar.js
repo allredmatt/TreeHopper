@@ -9,7 +9,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -118,7 +117,7 @@ export default function LeftBar ({setPageToRender}) {
                     <ListItemIcon>
                         <PeopleAlt style={{ color: '#ffffff' }} />
                     </ListItemIcon>
-                <ListItemText primary='People' />
+                <ListItemText primary='Profile' />
             </ListItem>
             </List> 
          </div>
@@ -140,7 +139,7 @@ export default function LeftBar ({setPageToRender}) {
             <IconButton aria-label="Bugs" onClick={() => onButtonClick('bugs')}>
                     <BugReportIcon style={{ color: '#ffffff' }} />
             </IconButton>
-            <IconButton aria-label="People" onClick={() => onButtonClick('people')}>
+            <IconButton aria-label="Profile" onClick={() => onButtonClick('people')}>
                     <PeopleAlt style={{ color: '#ffffff' }} />
             </IconButton>
             </div>

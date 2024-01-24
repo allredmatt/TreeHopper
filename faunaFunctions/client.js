@@ -1,3 +1,5 @@
+import { FunctionsSharp } from '@mui/icons-material';
+
 const faunadb = require('faunadb')
 const q = faunadb.query
 
@@ -249,4 +251,30 @@ export async function userList (secret) {
             )
         )
     )
+}
+
+export async function changePassword (secret, newPassword) {
+    const client = new faunadb.Client({ secret: secret })
+    return client.query(
+        q.Update(
+            q.CurrentIdentity(),
+            { credentials: { password: newPassword } }
+        )
+    )
+}
+
+export async function modifyUserDetails (secret, name, email) {
+    const client = new faunadb.Client({ secret: secret })
+    return await client.query (
+            q.Update(
+            q.Ref(q.Collection('Users'), q.Select(['id'], q.CurrentIdentity())),
+            {
+                data:
+                {
+                    name: name,
+                    email: email,
+                }
+            }
+            )
+        )
 }

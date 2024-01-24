@@ -74,7 +74,7 @@ export default function AuthedApp ({token}) {
             case 'bugs':
                 return(<Bugs token={token} projectsList={projects} user={user}/>)
             case 'people':
-                return(<People token={token} />)
+                return(<People token={token} user={user}/>)
             default:
                 return null
         }
