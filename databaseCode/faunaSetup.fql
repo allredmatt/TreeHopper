@@ -49,15 +49,20 @@ All Fauna Data for User Roles
 
 {
   ref: Role("User"),
-  ts: 1704713240300000,
+  ts: 1706098831520000,
   name: "User",
   privileges: [
     {
       resource: Collection("Users"),
       actions: {
         read: true,
-        write: false,
-        delete: false
+        write: Query(
+          Lambda(["old", "new", "ref"], Equals(Var("ref"), CurrentIdentity()))
+        ),
+        delete: false,
+        history_read: false,
+        create: false,
+        unrestricted_read: false
       }
     },
     {
