@@ -102,10 +102,9 @@ export function Login ({setToken}) {
         <div className={classes.root}>
             <Image 
                 className={classes.backgroundImage}
-                layout='fill'
+                fill
                 src="/tree.jpg"
                 alt="A big green tree"
-                objectFit="cover"
             />
             <Paper elevation={3} className={classes.paper}>
                 <Typography variant="h5" className={classes.bigBottomMargin} >User Login</Typography>
