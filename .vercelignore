@@ -1,2 +1,3 @@
 #Files for vercel to ignore in its build process
 databaseCode
+pack.old
